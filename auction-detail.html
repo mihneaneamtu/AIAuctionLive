@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2019 Tesla Model 3 - Auction Detail</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #0f172a;
+            --secondary-light: #f8fafc;
+            --accent: #ff6b1a;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --bg: #ffffff;
+            --bg-light: #f8fafc;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 20px 0;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            padding: 40px 0;
+        }
+
+        /* Image Gallery */
+        .gallery {
+            width: 100%;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--bg-light), var(--border));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            margin-bottom: 12px;
+        }
+
+        .thumbnails {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(135deg, var(--bg-light), var(--border));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .thumbnail:hover {
+            border-color: var(--primary);
+        }
+
+        /* Auction Info */
+        .auction-info h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .auction-category {
+            color: var(--text-light);
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .auction-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .info-card {
+            background: var(--bg-light);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .info-card .label {
+            color: var(--text-light);
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .info-card .value {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        /* Tabs */
+        .tabs {
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        /* Side Panel */
+        .side-panel {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 24px;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .bid-section {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bid-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .bid-label {
+            color: var(--text-light);
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .bid-price {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .bid-timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .bid-info {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .bid-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .bid-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bid-buttons button {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bid-buttons .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .bid-buttons .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .bid-buttons .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+
+        /* Seller Info */
+        .seller-info {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .seller-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 12px;
+        }
+
+        .seller-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .seller-badge {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .seller-rating {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        /* Similar Auctions */
+        .similar-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .similar-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .similar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .similar-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .similar-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .similar-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, var(--bg-light), var(--border));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+        .similar-content {
+            padding: 12px;
+        }
+
+        .similar-content h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .similar-content p {
+            color: var(--text-light);
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .similar-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 40px 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .side-panel {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">AI Auction Live</a>
+            <div style="display: flex; gap: 15px;">
+                <button class="btn btn-outline">Login</button>
+                <button class="btn btn-primary">Register</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="auctions.html">← Back to Auctions</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Column -->
+            <div>
+                <!-- Gallery -->
+                <div class="gallery">
+                    <div class="main-image">🚗</div>
+                    <div class="thumbnails">
+                        <div class="thumbnail">🚗</div>
+                        <div class="thumbnail">🚗</div>
+                        <div class="thumbnail">🚗</div>
+                        <div class="thumbnail">🚗</div>
+                    </div>
+                </div>
+
+                <!-- Auction Info -->
+                <div class="auction-info" style="margin-top: 40px;">
+                    <h1>2019 Tesla Model 3</h1>
+                    <p class="auction-category">Premium Electric Sedan</p>
+                    <span class="auction-badge">🔴 LIVE - Ending in 2h 30m</span>
+
+                    <!-- Info Cards -->
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="label">Current Bid</div>
+                            <div class="value">$25,000</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="label">Total Bids</div>
+                            <div class="value">45</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="label">Watchers</div>
+                            <div class="value">128</div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="tabs">
+                        <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
+                        <button class="tab-button" onclick="switchTab('bids')">Bid History</button>
+                        <button class="tab-button" onclick="switchTab('seller')">Seller Info</button>
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div id="overview" class="tab-content active">
+                        <h3 style="margin-bottom: 12px;">Description</h3>
+                        <p>This is a stunning 2019 Tesla Model 3 with excellent condition. The vehicle has been meticulously maintained with full service history.</p>
+                        
+                        <h3 style="margin: 24px 0 12px;">Vehicle Details</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div>
+                                <span style="color: var(--text-light); font-size: 14px;">Year</span>
+                                <p style="font-weight: 600;">2019</p>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-light); font-size: 14px;">Make</span>
+                                <p style="font-weight: 600;">Tesla</p>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-light); font-size: 14px;">Model</span>
+                                <p style="font-weight: 600;">Model 3</p>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-light); font-size: 14px;">Mileage</span>
+                                <p style="font-weight: 600;">45,230 miles</p>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-light); font-size: 14px;">Transmission</span>
+                                <p style="font-weight: 600;">Automatic</p>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-light); font-size: 14px;">Fuel Type</span>
+                                <p style="font-weight: 600;">Electric</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="bids" class="tab-content">
+                        <h3 style="margin-bottom: 16px;">Recent Bids</h3>
+                        <div style="border: 1px solid var(--border); border-radius: 8px; overflow: hidden;">
+                            <div style="padding: 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                                <span>User_abc123</span>
+                                <span style="font-weight: 600;">$25,000</span>
+                                <span style="color: var(--text-light); font-size: 12px;">2 min ago</span>
+                            </div>
+                            <div style="padding: 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                                <span>User_xyz789</span>
+                                <span style="font-weight: 600;">$24,500</span>
+                                <span style="color: var(--text-light); font-size: 12px;">5 min ago</span>
+                            </div>
+                            <div style="padding: 12px; display: flex; justify-content: space-between;">
+                                <span>User_def456</span>
+                                <span style="font-weight: 600;">$24,000</span>
+                                <span style="color: var(--text-light); font-size: 12px;">8 min ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="seller" class="tab-content">
+                        <h3 style="margin-bottom: 12px;">Seller Information</h3>
+                        <div style="text-align: center;">
+                            <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 12px;">👤</div>
+                            <h4 style="font-weight: 600; margin-bottom: 4px;">Premium Dealer</h4>
+                            <p style="color: var(--text-light); font-size: 14px; margin-bottom: 8px;">Verified Seller</p>
+                            <div style="margin-bottom: 12px;">⭐⭐⭐⭐⭐ 4.9/5 (234 reviews)</div>
+                            <p style="color: var(--text-light); line-height: 1.6;">Trusted seller with years of experience in vehicle sales. All items inspected and certified.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Similar Auctions -->
+                <div class="similar-section">
+                    <h2 class="similar-title">Similar Auctions</h2>
+                    <div class="similar-grid">
+                        <div class="similar-card">
+                            <div class="similar-image">🚗</div>
+                            <div class="similar-content">
+                                <h4>Tesla Model Y</h4>
+                                <p>2020 - Luxury SUV</p>
+                                <div class="similar-footer">
+                                    <span style="font-weight: 600;">$35,000</span>
+                                    <span>32 bids</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="similar-card">
+                            <div class="similar-image">🚗</div>
+                            <div class="similar-content">
+                                <h4>BMW i3</h4>
+                                <p>2019 - Electric</p>
+                                <div class="similar-footer">
+                                    <span style="font-weight: 600;">$18,000</span>
+                                    <span>28 bids</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="similar-card">
+                            <div class="similar-image">🚗</div>
+                            <div class="similar-content">
+                                <h4>Nissan Leaf</h4>
+                                <p>2018 - Electric</p>
+                                <div class="similar-footer">
+                                    <span style="font-weight: 600;">$15,000</span>
+                                    <span>19 bids</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Bid Panel -->
+            <div>
+                <div class="side-panel">
+                    <!-- Current Price -->
+                    <div class="bid-section">
+                        <div class="bid-label">Current Price</div>
+                        <div class="bid-price">$25,000</div>
+                        <div class="bid-info">45 bids placed</div>
+                    </div>
+
+                    <!-- Time Left -->
+                    <div class="bid-section">
+                        <div class="bid-label">Time Left</div>
+                        <div class="bid-timer" id="timer">2:30:45</div>
+                        <div class="bid-info">Ending on Dec 15, 2024 at 5:00 PM</div>
+                    </div>
+
+                    <!-- Bid Input -->
+                    <div class="bid-section">
+                        <div class="bid-label">Next Minimum Bid</div>
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">$25,100</div>
+                        <input type="number" class="bid-input" placeholder="Enter your bid" value="25100">
+                        <div class="bid-buttons">
+                            <button class="btn-primary">Place Bid</button>
+                            <button class="btn-outline">Buy It Now - $29,999</button>
+                            <button class="btn-outline">Make an Offer</button>
+                        </div>
+                        <div style="text-align: center; font-size: 12px; color: var(--text-light); margin-top: 12px;">
+                            By placing a bid, you agree to our terms and conditions.
+                        </div>
+                    </div>
+
+                    <!-- Seller Info -->
+                    <div class="seller-info">
+                        <div class="seller-avatar">👤</div>
+                        <div class="seller-name">Premium Dealer</div>
+                        <div class="seller-badge">VERIFIED SELLER</div>
+                        <div class="seller-rating">Located in Los Angeles, CA</div>
+                        <button class="btn btn-outline" style="width: 100%;">Message Seller</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 AI Auction Live. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Timer countdown
+        function updateTimer() {
+            const timerElement = document.getElementById('timer');
+            let hours = 2, minutes = 30, seconds = 45;
+
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                }
+                if (minutes < 0) {
+                    minutes = 59;
+                    hours--;
+                }
+                if (hours < 0) {
+                    hours = 0;
+                    minutes = 0;
+                    seconds = 0;
+                }
+
+                timerElement.textContent = `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        updateTimer();
+    </script>
+</body>
+</html>

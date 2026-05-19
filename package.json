@@ -1,0 +1,23 @@
+{
+  "name": "ai-auction-live",
+  "version": "1.0.0",
+  "description": "Modern online auction marketplace for vehicles, products, and services",
+  "private": true,
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces",
+    "start": "npm start --workspaces",
+    "lint": "npm run lint --workspaces",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
+    "db:setup": "cd apps/backend && npm run db:setup",
+    "db:seed": "cd apps/backend && npm run db:seed",
+    "db:migrate": "cd apps/backend && npm run db:migrate"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  }
+}
