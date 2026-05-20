@@ -6,7 +6,13 @@ import { Server as HTTPServer } from 'http';
 import { createServer } from 'http';
 import { Server as SocketServer } from 'socket.io';
 import dotenv from 'dotenv';
-import pool from './config/database.js';
+import authRouter from './routes/auth.js';
+import auctionsRouter from './routes/auctions.js';
+import bidsRouter from './routes/bids.js';
+import usersRouter from './routes/users.js';
+import categoriesRouter from './routes/categories.js';
+import paymentsRouter from './routes/payments.js';
+import messagesRouter from './routes/messages.js';
 
 // Load environment variables
 dotenv.config();
@@ -48,27 +54,13 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // API Routes
-app.use('/api/auth', (req: Request, res: Response) => {
-  res.json({ message: 'Auth routes coming soon' });
-});
-app.use('/api/auctions', (req: Request, res: Response) => {
-  res.json({ message: 'Auction routes coming soon' });
-});
-app.use('/api/bids', (req: Request, res: Response) => {
-  res.json({ message: 'Bid routes coming soon' });
-});
-app.use('/api/users', (req: Request, res: Response) => {
-  res.json({ message: 'User routes coming soon' });
-});
-app.use('/api/categories', (req: Request, res: Response) => {
-  res.json({ message: 'Category routes coming soon' });
-});
-app.use('/api/payments', (req: Request, res: Response) => {
-  res.json({ message: 'Payment routes coming soon' });
-});
-app.use('/api/messages', (req: Request, res: Response) => {
-  res.json({ message: 'Message routes coming soon' });
-});
+app.use('/api/auth', authRouter);
+app.use('/api/auctions', auctionsRouter);
+app.use('/api/bids', bidsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/categories', categoriesRouter);
+app.use('/api/payments', paymentsRouter);
+app.use('/api/messages', messagesRouter);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
