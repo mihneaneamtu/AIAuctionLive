@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">
+  <rect width="320" height="200" fill="#eff6ff"/>
+  <path d="M50 110 C60 90 80 80 120 80 H200 C240 80 260 90 270 110 Q280 130 270 145 L250 155 H70 L50 145 Q40 130 50 110 Z" fill="#0ea5e9"/>
+  <ellipse cx="90" cy="160" rx="22" ry="18" fill="#0f172a"/>
+  <ellipse cx="230" cy="160" rx="22" ry="18" fill="#0f172a"/>
+  <circle cx="90" cy="160" r="8" fill="#dbeafe"/>
+  <circle cx="230" cy="160" r="8" fill="#dbeafe"/>
+  <text x="160" y="30" text-anchor="middle" font-size="24" font-family="Arial" fill="#1e293b">Honda Civic</text>
+</svg>

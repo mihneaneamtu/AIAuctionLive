@@ -210,8 +210,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
+            font-size: 0;
             position: relative;
+            overflow: hidden;
+        }
+
+        .auction-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .auction-badge {
@@ -345,8 +353,8 @@
                 <a href="#services">Services</a>
             </div>
             <div style="display: flex; gap: 15px;">
-                <button class="btn btn-outline">Login</button>
-                <button class="btn btn-primary">Register</button>
+                <button class="btn btn-outline" onclick="openModal('loginModal')">Login</button>
+                <button class="btn btn-primary" onclick="openModal('registerModal')">Register</button>
             </div>
         </nav>
     </header>
@@ -370,20 +378,32 @@
                     <div class="filter-group">
                         <h3>Category</h3>
                         <div class="filter-option">
-                            <input type="radio" name="category" id="cat1" checked>
+                            <input type="radio" name="category" id="cat1" value="All" checked>
                             <label for="cat1">All Categories</label>
                         </div>
                         <div class="filter-option">
-                            <input type="radio" name="category" id="cat2">
+                            <input type="radio" name="category" id="cat2" value="Vehicles">
                             <label for="cat2">Vehicles</label>
                         </div>
                         <div class="filter-option">
-                            <input type="radio" name="category" id="cat3">
+                            <input type="radio" name="category" id="cat3" value="Electronics">
                             <label for="cat3">Electronics</label>
                         </div>
                         <div class="filter-option">
-                            <input type="radio" name="category" id="cat4">
+                            <input type="radio" name="category" id="cat4" value="Motorcycles">
                             <label for="cat4">Motorcycles</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="category" id="cat5" value="Luxury Items">
+                            <label for="cat5">Luxury Items</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="category" id="cat6" value="Services">
+                            <label for="cat6">Services</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="category" id="cat7" value="Real Estate">
+                            <label for="cat7">Real Estate</label>
                         </div>
                     </div>
 
@@ -429,14 +449,22 @@
             <div>
                 <!-- Sort Bar -->
                 <div class="sort-bar">
-                    <span style="font-weight: 500;">Sort by:</span>
-                    <select>
-                        <option>Ending Soon</option>
-                        <option>Newly Listed</option>
-                        <option>Price: Low to High</option>
-                        <option>Price: High to Low</option>
-                        <option>Most Bids</option>
-                    </select>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; flex: 1;">
+                        <span style="font-weight: 500;">Search:</span>
+                        <input id="searchInput" type="text" placeholder="Search auctions..." style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; min-width: 220px; flex: 1;">
+                        <button type="button" class="btn btn-primary" onclick="searchAuctions()">Search</button>
+                        <button type="button" class="btn btn-outline" onclick="clearFilters()">Clear</button>
+                    </div>
+                    <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                        <span style="font-weight: 500;">Sort by:</span>
+                        <select id="sortSelect">
+                            <option value="ending">Ending Soon</option>
+                            <option value="new">Newly Listed</option>
+                            <option value="lowHigh">Price: Low to High</option>
+                            <option value="highLow">Price: High to Low</option>
+                            <option value="bids">Most Bids</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Auctions Grid -->
@@ -450,47 +478,317 @@
         <p>&copy; 2024 AI Auction Live. All rights reserved.</p>
     </footer>
 
-    <script>
-        function generateAuctions() {
-            const auctions = [
-                { title: '2019 Tesla Model 3', price: 25000, bids: 45, time: '2h 30m', category: 'Premium Sedan', icon: '🚗' },
-                { title: '2020 BMW M440i', price: 32000, bids: 28, time: '5h 15m', category: 'Sports Car', icon: '🚗' },
-                { title: 'iPhone 15 Pro Max', price: 1200, bids: 89, time: '1h 45m', category: 'Electronics', icon: '📱' },
-                { title: 'Harley Davidson Street 750', price: 7500, bids: 15, time: '12h 20m', category: 'Motorcycle', icon: '🏍️' },
-                { title: 'Apple MacBook Pro 16"', price: 2500, bids: 34, time: '3h 50m', category: 'Electronics', icon: '💻' },
-                { title: 'Luxury Watch - Rolex', price: 8900, bids: 52, time: '8h 10m', category: 'Luxury Item', icon: '⌚' },
-                { title: '2021 Honda Civic', price: 18000, bids: 22, time: '6h 40m', category: 'Sedan', icon: '🚗' },
-                { title: 'Gaming PC Setup', price: 3500, bids: 67, time: '4h 25m', category: 'Electronics', icon: '🖥️' },
-                { title: 'Yamaha YZF-R1', price: 9200, bids: 18, time: '9h 55m', category: 'Motorcycle', icon: '🏍️' },
-                { title: 'Sony A7IV Camera', price: 2000, bids: 41, time: '2h 10m', category: 'Electronics', icon: '📷' },
-                { title: '2018 Ford F-150', price: 22000, bids: 35, time: '7h 30m', category: 'Truck', icon: '🚙' },
-                { title: 'Apple AirPods Pro', price: 249, bids: 156, time: '1h 05m', category: 'Electronics', icon: '🎧' },
-            ];
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Sign In</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">×</button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+        </div>
+    </div>
 
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">×</button>
+            </div>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" required placeholder="Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="bidModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Quick Bid</h2>
+                <button class="modal-close" onclick="closeModal('bidModal')">×</button>
+            </div>
+            <form onsubmit="submitQuickBid(event)">
+                <div class="form-group">
+                    <label>Auction</label>
+                    <p id="quickBidTitle" style="font-weight: 700;">Selected item</p>
+                </div>
+                <div class="form-group">
+                    <label>Bid Amount</label>
+                    <input id="quickBidAmount" type="number" required min="1" placeholder="$0">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Place Bid</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const AUCTIONS = [
+            { id: 'tesla-model-3', title: '2019 Tesla Model 3', category: 'Premium Sedan', categoryGroup: 'Vehicles', price: 25000, bids: 45, time: '2h 30m', status: 'Live', image: 'images/vehicles/tesla-model-3.svg', buyNow: 29999, bidIncrement: 250 },
+            { id: 'bmw-m440i', title: '2020 BMW M440i', category: 'Sports Car', categoryGroup: 'Vehicles', price: 32000, bids: 28, time: '5h 15m', status: 'Live', image: 'images/vehicles/bmw-m440i.svg', buyNow: 35999, bidIncrement: 300 },
+            { id: 'iphone-15-pro-max', title: 'iPhone 15 Pro Max', category: 'Electronics', categoryGroup: 'Electronics', price: 1200, bids: 89, time: '1h 45m', status: 'Ending Soon', image: 'images/electronics/iphone-15-pro-max.svg', buyNow: 1399, bidIncrement: 50 },
+            { id: 'harley-street-750', title: 'Harley Davidson Street 750', category: 'Motorcycle', categoryGroup: 'Motorcycles', price: 7500, bids: 15, time: '12h 20m', status: 'Live', image: 'images/motorcycles/harley-street-750.svg', buyNow: 8999, bidIncrement: 150 },
+            { id: 'macbook-pro-16', title: 'Apple MacBook Pro 16"', category: 'Electronics', categoryGroup: 'Electronics', price: 2500, bids: 34, time: '3h 50m', status: 'Live', image: 'images/electronics/macbook-pro-16.svg', buyNow: 2799, bidIncrement: 100 },
+            { id: 'rolex-watch', title: 'Luxury Watch - Rolex', category: 'Luxury Item', categoryGroup: 'Luxury Items', price: 8900, bids: 52, time: '8h 10m', status: 'Live', image: 'images/luxury/rolex-watch.svg', buyNow: 10500, bidIncrement: 200 },
+            { id: 'honda-civic', title: '2021 Honda Civic', category: 'Sedan', categoryGroup: 'Vehicles', price: 18000, bids: 22, time: '6h 40m', status: 'Ending Soon', image: 'images/vehicles/honda-civic.svg', buyNow: 19999, bidIncrement: 150 },
+            { id: 'gaming-pc-setup', title: 'Gaming PC Setup', category: 'Electronics', categoryGroup: 'Electronics', price: 3500, bids: 67, time: '4h 25m', status: 'Live', image: 'images/electronics/gaming-pc-setup.svg', buyNow: 3999, bidIncrement: 100 },
+            { id: 'yamaha-r1', title: 'Yamaha YZF-R1', category: 'Motorcycle', categoryGroup: 'Motorcycles', price: 9200, bids: 18, time: '9h 55m', status: 'Live', image: 'images/motorcycles/yamaha-r1.svg', buyNow: 10499, bidIncrement: 200 },
+            { id: 'sony-a7iv-camera', title: 'Sony A7IV Camera', category: 'Electronics', categoryGroup: 'Electronics', price: 2000, bids: 41, time: '2h 10m', status: 'Live', image: 'images/electronics/sony-a7iv-camera.svg', buyNow: 2399, bidIncrement: 75 },
+            { id: 'ford-f150', title: '2018 Ford F-150', category: 'Truck', categoryGroup: 'Vehicles', price: 22000, bids: 35, time: '7h 30m', status: 'Live', image: 'images/vehicles/ford-f150.svg', buyNow: 24999, bidIncrement: 250 },
+            { id: 'airpods-pro', title: 'Apple AirPods Pro', category: 'Electronics', categoryGroup: 'Electronics', price: 249, bids: 156, time: '1h 05m', status: 'Ending Soon', image: 'images/electronics/airpods-pro.svg', buyNow: 299, bidIncrement: 20 },
+            { id: 'ferrari-f8', title: 'Ferrari F8 Tributo', category: 'Supercar', categoryGroup: 'Vehicles', price: 299000, bids: 12, time: '14h 10m', status: 'Scheduled', image: 'images/vehicles/ferrari-f8.svg', buyNow: 349000, bidIncrement: 1000 },
+            { id: 'luxury-yacht', title: 'Luxury Yacht', category: 'Boat', categoryGroup: 'Luxury Items', price: 1200000, bids: 4, time: '2d 04h', status: 'Scheduled', image: 'images/boats/luxury-yacht.svg', buyNow: 1499999, bidIncrement: 5000 },
+            { id: 'luxury-villa', title: 'Luxury Villa', category: 'Real Estate', categoryGroup: 'Real Estate', price: 4200000, bids: 6, time: '1d 12h', status: 'Live', image: 'images/realestate/luxury-villa.svg', buyNow: 4500000, bidIncrement: 20000 },
+            { id: 'executive-consulting', title: 'Executive Consulting Package', category: 'Service', categoryGroup: 'Services', price: 85000, bids: 3, time: '3d 08h', status: 'Scheduled', image: 'images/services/executive-consulting.svg', buyNow: 99500, bidIncrement: 2000 },
+            { id: 'ps5', title: 'PlayStation 5 Console', category: 'Electronics', categoryGroup: 'Electronics', price: 499, bids: 72, time: '2h 10m', status: 'Live', image: 'images/electronics/ps5.svg', buyNow: 599, bidIncrement: 25 },
+            { id: 'dji-drone', title: 'DJI Drone', category: 'Electronics', categoryGroup: 'Electronics', price: 1500, bids: 24, time: '10h 00m', status: 'Live', image: 'images/electronics/dji-drone.svg', buyNow: 1749, bidIncrement: 50 },
+        ];
+
+        let activeFilters = {
+            category: 'All',
+            search: '',
+            status: { live: true, endingSoon: false, scheduled: false },
+            price: { under1000: false, low5000: false, medium25000: false, high25000: false },
+            sort: 'ending',
+        };
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function switchModal(fromModal, toModal) {
+            closeModal(fromModal);
+            openModal(toModal);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            showToast('This demo would connect you to the backend login flow.');
+            closeModal('loginModal');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            showToast('Registration submitted. In a live app this would create an account.');
+            closeModal('registerModal');
+        }
+
+        function showToast(message) {
+            let container = document.getElementById('toastContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toastContainer';
+                container.style.position = 'fixed';
+                container.style.right = '20px';
+                container.style.bottom = '20px';
+                container.style.display = 'grid';
+                container.style.gap = '12px';
+                container.style.zIndex = '1200';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.background = 'white';
+            toast.style.color = '#0f172a';
+            toast.style.border = '1px solid rgba(15, 23, 42, 0.12)';
+            toast.style.borderRadius = '12px';
+            toast.style.padding = '14px 18px';
+            toast.style.boxShadow = '0 14px 30px rgba(15, 23, 42, 0.12)';
+            toast.style.maxWidth = '320px';
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3600);
+        }
+
+        function formatCurrency(value) {
+            return `$${value.toLocaleString()}`;
+        }
+
+        function getStatusKey(status) {
+            return status === 'Live' ? 'live' : status === 'Ending Soon' ? 'endingSoon' : 'scheduled';
+        }
+
+        function searchAuctions() {
+            activeFilters.search = document.getElementById('searchInput').value.trim().toLowerCase();
+            renderAuctions();
+            showToast(`Searching for "${activeFilters.search}"`);
+        }
+
+        function clearFilters() {
+            activeFilters = {
+                category: 'All',
+                search: '',
+                status: { live: true, endingSoon: false, scheduled: false },
+                price: { under1000: false, low5000: false, medium25000: false, high25000: false },
+                sort: 'ending',
+            };
+            document.getElementById('searchInput').value = '';
+            document.getElementById('sortSelect').value = 'ending';
+            document.getElementById('status1').checked = true;
+            document.getElementById('status2').checked = false;
+            document.getElementById('status3').checked = false;
+            document.getElementById('price1').checked = false;
+            document.getElementById('price2').checked = false;
+            document.getElementById('price3').checked = false;
+            document.getElementById('price4').checked = false;
+            document.getElementById('cat1').checked = true;
+            renderAuctions();
+            showToast('Filters cleared');
+        }
+
+        function updateFilters() {
+            activeFilters.category = document.querySelector('input[name="category"]:checked')?.value || 'All';
+            activeFilters.status.live = document.getElementById('status1').checked;
+            activeFilters.status.endingSoon = document.getElementById('status2').checked;
+            activeFilters.status.scheduled = document.getElementById('status3').checked;
+            activeFilters.price.under1000 = document.getElementById('price1').checked;
+            activeFilters.price.low5000 = document.getElementById('price2').checked;
+            activeFilters.price.medium25000 = document.getElementById('price3').checked;
+            activeFilters.price.high25000 = document.getElementById('price4').checked;
+            activeFilters.sort = document.getElementById('sortSelect').value;
+            renderAuctions();
+        }
+
+        function sortAuctions(list) {
+            if (activeFilters.sort === 'lowHigh') {
+                return list.sort((a, b) => a.price - b.price);
+            }
+            if (activeFilters.sort === 'highLow') {
+                return list.sort((a, b) => b.price - a.price);
+            }
+            if (activeFilters.sort === 'bids') {
+                return list.sort((a, b) => b.bids - a.bids);
+            }
+            if (activeFilters.sort === 'new') {
+                return list.sort((a, b) => b.bids - a.bids);
+            }
+            return list;
+        }
+
+        function renderAuctions() {
+            const filtered = AUCTIONS.filter((auction) => {
+                const matchesSearch = activeFilters.search
+                    ? `${auction.title} ${auction.category}`.toLowerCase().includes(activeFilters.search)
+                    : true;
+                const matchesStatus = activeFilters.status.live || activeFilters.status.endingSoon || activeFilters.status.scheduled
+                    ? activeFilters.status[getStatusKey(auction.status)]
+                    : true;
+                const price = auction.price;
+                const matchesPrice = activeFilters.price.under1000 && price < 1000
+                    || activeFilters.price.low5000 && price >= 1000 && price < 5000
+                    || activeFilters.price.medium25000 && price >= 5000 && price < 25000
+                    || activeFilters.price.high25000 && price >= 25000
+                    || (!activeFilters.price.under1000 && !activeFilters.price.low5000 && !activeFilters.price.medium25000 && !activeFilters.price.high25000);
+                const matchesCategory = activeFilters.category === 'All' || auction.categoryGroup === activeFilters.category;
+                return matchesSearch && matchesStatus && matchesPrice && matchesCategory;
+            });
+            generateAuctions(sortAuctions(filtered));
+        }
+
+        function openBidModal(id) {
+            const auction = AUCTIONS.find((item) => item.id === id);
+            if (!auction) {
+                showToast('Auction not found.', 'error');
+                return;
+            }
+            document.getElementById('quickBidTitle').textContent = auction.title;
+            document.getElementById('quickBidAmount').value = auction.price + auction.bidIncrement;
+            document.getElementById('bidModal').dataset.auctionId = id;
+            openModal('bidModal');
+        }
+
+        function submitQuickBid(e) {
+            e.preventDefault();
+            const auctionId = document.getElementById('bidModal').dataset.auctionId;
+            const auction = AUCTIONS.find((item) => item.id === auctionId);
+            const bidValue = Number(document.getElementById('quickBidAmount').value);
+            if (!auction || bidValue <= auction.price) {
+                showToast('Your bid must exceed the current price.', 'error');
+                return;
+            }
+            auction.price = bidValue;
+            auction.bids += 1;
+            auction.status = 'Live';
+            closeModal('bidModal');
+            renderAuctions();
+            showToast(`Bid placed for ${formatCurrency(bidValue)} on ${auction.title}`);
+        }
+
+        function goToDetail(id) {
+            window.location.href = `auction-detail.html?id=${encodeURIComponent(id)}`;
+        }
+
+        function generateAuctions(auctions) {
             const grid = document.getElementById('auctionGrid');
+            if (!auctions.length) {
+                grid.innerHTML = `<div style="padding: 40px; text-align: center; color: var(--text-light);">No auctions matched your filters.</div>`;
+                return;
+            }
             grid.innerHTML = auctions.map((auction) => `
-                <a href="auction-detail.html" class="auction-card">
+                <div class="auction-card">
                     <div class="auction-image">
-                        ${auction.icon}
-                        <span class="auction-badge">LIVE</span>
+                        <img src="${auction.image}" alt="${auction.title}">
+                        <span class="auction-badge">${auction.status}</span>
                     </div>
                     <div class="auction-content">
                         <h3 class="auction-title">${auction.title}</h3>
                         <p class="auction-category">${auction.category}</p>
                         <div class="auction-details">
-                            <span class="auction-price">$${auction.price.toLocaleString()}</span>
+                            <span class="auction-price">${formatCurrency(auction.price)}</span>
                             <span>${auction.bids} bids</span>
                         </div>
                         <div style="color: var(--accent); font-weight: 600; margin-bottom: 12px;">${auction.time}</div>
                         <div class="auction-footer">
-                            <button class="btn-primary">Bid</button>
+                            <button class="btn-primary" onclick="goToDetail('${auction.id}')">View</button>
+                            <button class="btn-outline" onclick="openBidModal('${auction.id}')">Bid</button>
                         </div>
                     </div>
-                </a>
+                </div>
             `).join('');
         }
 
-        window.addEventListener('DOMContentLoaded', generateAuctions);
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('status1').addEventListener('change', updateFilters);
+            document.getElementById('status2').addEventListener('change', updateFilters);
+            document.getElementById('status3').addEventListener('change', updateFilters);
+            document.getElementById('price1').addEventListener('change', updateFilters);
+            document.getElementById('price2').addEventListener('change', updateFilters);
+            document.getElementById('price3').addEventListener('change', updateFilters);
+            document.getElementById('price4').addEventListener('change', updateFilters);
+            document.getElementById('sortSelect').addEventListener('change', updateFilters);
+            document.querySelectorAll('input[name="category"]').forEach((input) => {
+                input.addEventListener('change', updateFilters);
+            });
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchAuctions();
+            });
+            renderAuctions();
+        });
     </script>
 </body>
 </html>

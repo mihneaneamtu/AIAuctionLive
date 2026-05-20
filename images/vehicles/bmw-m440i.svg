@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">
+  <rect width="320" height="200" fill="#f0f9ff"/>
+  <path d="M50 110 L70 80 H250 L270 110 Q280 125 270 140 L250 150 H70 L50 140 Q40 125 50 110 Z" fill="#0ea5e9"/>
+  <rect x="90" y="60" width="140" height="30" rx="12" fill="#0284c7"/>
+  <ellipse cx="90" cy="160" rx="20" ry="16" fill="#0f172a"/>
+  <ellipse cx="230" cy="160" rx="20" ry="16" fill="#0f172a"/>
+  <circle cx="90" cy="160" r="8" fill="#dbeafe"/>
+  <circle cx="230" cy="160" r="8" fill="#dbeafe"/>
+  <text x="160" y="30" text-anchor="middle" font-size="24" font-family="Arial" fill="#1e293b">BMW M440i</text>
+</svg>

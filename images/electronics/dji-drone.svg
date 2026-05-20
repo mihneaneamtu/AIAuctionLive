@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220">
+  <rect width="220" height="220" fill="#eef2ff"/>
+  <circle cx="110" cy="110" r="50" fill="#0ea5e9"/>
+  <circle cx="70" cy="70" r="16" fill="#0f172a"/>
+  <circle cx="150" cy="70" r="16" fill="#0f172a"/>
+  <circle cx="70" cy="150" r="16" fill="#0f172a"/>
+  <circle cx="150" cy="150" r="16" fill="#0f172a"/>
+  <rect x="100" y="95" width="20" height="30" rx="10" fill="#f8fafc"/>
+  <text x="110" y="205" text-anchor="middle" font-size="18" font-family="Arial" fill="#0f172a">Drone</text>
+</svg>

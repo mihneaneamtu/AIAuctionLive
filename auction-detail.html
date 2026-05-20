@@ -120,11 +120,15 @@
             height: 400px;
             background: linear-gradient(135deg, var(--bg-light), var(--border));
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 120px;
+            overflow: hidden;
             margin-bottom: 12px;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .thumbnails {
@@ -138,13 +142,17 @@
             height: 80px;
             background: linear-gradient(135deg, var(--bg-light), var(--border));
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
+            overflow: hidden;
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.3s;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .thumbnail:hover {
@@ -364,6 +372,72 @@
             margin-bottom: 12px;
         }
 
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.18);
+        }
+
+        .modal-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .modal-close {
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .modal form {
+            padding: 20px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+        }
+
         /* Similar Auctions */
         .similar-section {
             margin-top: 60px;
@@ -401,10 +475,14 @@
             width: 100%;
             height: 150px;
             background: linear-gradient(135deg, var(--bg-light), var(--border));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
+            overflow: hidden;
+        }
+
+        .similar-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .similar-content {
@@ -460,8 +538,8 @@
         <nav class="container">
             <a href="index.html" class="logo">AI Auction Live</a>
             <div style="display: flex; gap: 15px;">
-                <button class="btn btn-outline">Login</button>
-                <button class="btn btn-primary">Register</button>
+                <button class="btn btn-outline" onclick="openModal('loginModal')">Login</button>
+                <button class="btn btn-primary" onclick="openModal('registerModal')">Register</button>
             </div>
         </nav>
     </header>
@@ -478,76 +556,47 @@
             <div>
                 <!-- Gallery -->
                 <div class="gallery">
-                    <div class="main-image">🚗</div>
-                    <div class="thumbnails">
-                        <div class="thumbnail">🚗</div>
-                        <div class="thumbnail">🚗</div>
-                        <div class="thumbnail">🚗</div>
-                        <div class="thumbnail">🚗</div>
+                    <div class="main-image">
+                        <img id="mainImage" src="images/vehicles/tesla-model-3.svg" alt="Auction image">
                     </div>
+                    <div class="thumbnails" id="thumbnailList"></div>
                 </div>
 
                 <!-- Auction Info -->
                 <div class="auction-info" style="margin-top: 40px;">
-                    <h1>2019 Tesla Model 3</h1>
-                    <p class="auction-category">Premium Electric Sedan</p>
-                    <span class="auction-badge">🔴 LIVE - Ending in 2h 30m</span>
-
+                    <h1 id="auctionTitle">2019 Tesla Model 3</h1>
+                    <p class="auction-category" id="auctionCategory">Premium Electric Sedan</p>
+                    <span class="auction-badge" id="auctionStatusBadge">🔴 LIVE - Ending in 2h 30m</span>
                     <!-- Info Cards -->
                     <div class="info-grid">
                         <div class="info-card">
                             <div class="label">Current Bid</div>
-                            <div class="value">$25,000</div>
+                            <div class="value" id="currentPrice">$25,000</div>
                         </div>
                         <div class="info-card">
                             <div class="label">Total Bids</div>
-                            <div class="value">45</div>
+                            <div class="value" id="totalBidsValue">45</div>
                         </div>
                         <div class="info-card">
                             <div class="label">Watchers</div>
-                            <div class="value">128</div>
+                            <div class="value" id="watchersValue">128</div>
                         </div>
                     </div>
 
                     <!-- Tabs -->
                     <div class="tabs">
-                        <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
-                        <button class="tab-button" onclick="switchTab('bids')">Bid History</button>
-                        <button class="tab-button" onclick="switchTab('seller')">Seller Info</button>
+                        <button class="tab-button active" onclick="switchTab('overview', this)">Overview</button>
+                        <button class="tab-button" onclick="switchTab('bids', this)">Bid History</button>
+                        <button class="tab-button" onclick="switchTab('seller', this)">Seller Info</button>
                     </div>
 
                     <!-- Tab Contents -->
                     <div id="overview" class="tab-content active">
                         <h3 style="margin-bottom: 12px;">Description</h3>
-                        <p>This is a stunning 2019 Tesla Model 3 with excellent condition. The vehicle has been meticulously maintained with full service history.</p>
+                        <p id="productDescription">This is a stunning 2019 Tesla Model 3 with excellent condition. The vehicle has been meticulously maintained with full service history.</p>
                         
-                        <h3 style="margin: 24px 0 12px;">Vehicle Details</h3>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                            <div>
-                                <span style="color: var(--text-light); font-size: 14px;">Year</span>
-                                <p style="font-weight: 600;">2019</p>
-                            </div>
-                            <div>
-                                <span style="color: var(--text-light); font-size: 14px;">Make</span>
-                                <p style="font-weight: 600;">Tesla</p>
-                            </div>
-                            <div>
-                                <span style="color: var(--text-light); font-size: 14px;">Model</span>
-                                <p style="font-weight: 600;">Model 3</p>
-                            </div>
-                            <div>
-                                <span style="color: var(--text-light); font-size: 14px;">Mileage</span>
-                                <p style="font-weight: 600;">45,230 miles</p>
-                            </div>
-                            <div>
-                                <span style="color: var(--text-light); font-size: 14px;">Transmission</span>
-                                <p style="font-weight: 600;">Automatic</p>
-                            </div>
-                            <div>
-                                <span style="color: var(--text-light); font-size: 14px;">Fuel Type</span>
-                                <p style="font-weight: 600;">Electric</p>
-                            </div>
-                        </div>
+                        <h3 style="margin: 24px 0 12px;">Details</h3>
+                        <div id="productDetailsGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"></div>
                     </div>
 
                     <div id="bids" class="tab-content">
@@ -575,10 +624,10 @@
                         <h3 style="margin-bottom: 12px;">Seller Information</h3>
                         <div style="text-align: center;">
                             <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 12px;">👤</div>
-                            <h4 style="font-weight: 600; margin-bottom: 4px;">Premium Dealer</h4>
-                            <p style="color: var(--text-light); font-size: 14px; margin-bottom: 8px;">Verified Seller</p>
-                            <div style="margin-bottom: 12px;">⭐⭐⭐⭐⭐ 4.9/5 (234 reviews)</div>
-                            <p style="color: var(--text-light); line-height: 1.6;">Trusted seller with years of experience in vehicle sales. All items inspected and certified.</p>
+                            <h4 style="font-weight: 600; margin-bottom: 4px;" id="sellerTabName">Premium Dealer</h4>
+                            <p style="color: var(--text-light); font-size: 14px; margin-bottom: 8px;" id="sellerTabBadge">Verified Seller</p>
+                            <div id="sellerTabRating" style="margin-bottom: 12px;">⭐⭐⭐⭐⭐ 4.9/5 (234 reviews)</div>
+                            <p id="sellerTabDescription" style="color: var(--text-light); line-height: 1.6;">Trusted seller with years of experience in vehicle sales. All items inspected and certified.</p>
                         </div>
                     </div>
                 </div>
@@ -586,41 +635,7 @@
                 <!-- Similar Auctions -->
                 <div class="similar-section">
                     <h2 class="similar-title">Similar Auctions</h2>
-                    <div class="similar-grid">
-                        <div class="similar-card">
-                            <div class="similar-image">🚗</div>
-                            <div class="similar-content">
-                                <h4>Tesla Model Y</h4>
-                                <p>2020 - Luxury SUV</p>
-                                <div class="similar-footer">
-                                    <span style="font-weight: 600;">$35,000</span>
-                                    <span>32 bids</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="similar-card">
-                            <div class="similar-image">🚗</div>
-                            <div class="similar-content">
-                                <h4>BMW i3</h4>
-                                <p>2019 - Electric</p>
-                                <div class="similar-footer">
-                                    <span style="font-weight: 600;">$18,000</span>
-                                    <span>28 bids</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="similar-card">
-                            <div class="similar-image">🚗</div>
-                            <div class="similar-content">
-                                <h4>Nissan Leaf</h4>
-                                <p>2018 - Electric</p>
-                                <div class="similar-footer">
-                                    <span style="font-weight: 600;">$15,000</span>
-                                    <span>19 bids</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="similar-grid" id="similarGrid"></div>
                 </div>
             </div>
 
@@ -630,8 +645,8 @@
                     <!-- Current Price -->
                     <div class="bid-section">
                         <div class="bid-label">Current Price</div>
-                        <div class="bid-price">$25,000</div>
-                        <div class="bid-info">45 bids placed</div>
+                        <div class="bid-price" id="currentPrice">$25,000</div>
+                        <div class="bid-info"><span id="totalBidsValue">45</span> bids placed</div>
                     </div>
 
                     <!-- Time Left -->
@@ -644,12 +659,12 @@
                     <!-- Bid Input -->
                     <div class="bid-section">
                         <div class="bid-label">Next Minimum Bid</div>
-                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">$25,100</div>
-                        <input type="number" class="bid-input" placeholder="Enter your bid" value="25100">
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;" id="nextBidValue">$25,100</div>
+                        <input id="bidInput" type="number" class="bid-input" placeholder="Enter your bid">
                         <div class="bid-buttons">
-                            <button class="btn-primary">Place Bid</button>
-                            <button class="btn-outline">Buy It Now - $29,999</button>
-                            <button class="btn-outline">Make an Offer</button>
+                            <button class="btn-primary" onclick="handleDetailBid()">Place Bid</button>
+                            <button class="btn-outline" onclick="handleBuyNow()">Buy It Now - <span id="buyNowValue">$29,999</span></button>
+                            <button class="btn-outline" onclick="handleMakeOffer()">Make an Offer</button>
                         </div>
                         <div style="text-align: center; font-size: 12px; color: var(--text-light); margin-top: 12px;">
                             By placing a bid, you agree to our terms and conditions.
@@ -659,10 +674,11 @@
                     <!-- Seller Info -->
                     <div class="seller-info">
                         <div class="seller-avatar">👤</div>
-                        <div class="seller-name">Premium Dealer</div>
-                        <div class="seller-badge">VERIFIED SELLER</div>
-                        <div class="seller-rating">Located in Los Angeles, CA</div>
-                        <button class="btn btn-outline" style="width: 100%;">Message Seller</button>
+                        <div class="seller-name" id="sellerName">Premium Dealer</div>
+                        <div class="seller-badge" id="sellerBadge">VERIFIED SELLER</div>
+                        <div class="seller-rating" id="sellerRating">4.9/5 (234 reviews)</div>
+                        <div id="sellerLocation" style="color: var(--text-light); font-size: 14px; margin-bottom: 12px;">Located in Los Angeles, CA</div>
+                        <button class="btn btn-outline" style="width: 100%;" onclick="handleMessageSeller()">Message Seller</button>
                     </div>
                 </div>
             </div>
@@ -674,47 +690,355 @@
         <p>&copy; 2024 AI Auction Live. All rights reserved.</p>
     </footer>
 
-    <script>
-        function switchTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Sign In</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">×</button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+        </div>
+    </div>
 
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">×</button>
+            </div>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" required placeholder="Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const AUCTIONS = [
+            {
+                id: 'tesla-model-3',
+                title: '2019 Tesla Model 3',
+                category: 'Premium Electric Sedan',
+                status: 'Live',
+                price: 25000,
+                bids: 45,
+                time: '2h 30m',
+                buyNow: 29999,
+                bidIncrement: 100,
+                remainingSeconds: 2 * 3600 + 30 * 60 + 45,
+                image: 'images/vehicles/tesla-model-3.svg',
+                images: ['images/vehicles/tesla-model-3.svg', 'images/vehicles/bmw-m440i.svg', 'images/vehicles/honda-civic.svg'],
+                description: 'This 2019 Tesla Model 3 is offered in excellent condition with a full digital service history and extended warranty options.',
+                details: {
+                    Year: '2019',
+                    Make: 'Tesla',
+                    Model: 'Model 3',
+                    Mileage: '45,230 miles',
+                    Transmission: 'Automatic',
+                    'Fuel Type': 'Electric',
+                },
+                sellerName: 'Premium Dealer',
+                sellerRating: 4.9,
+                sellerReviews: 234,
+                sellerLocation: 'Los Angeles, CA',
+                sellerBadge: 'VERIFIED SELLER',
+            },
+            {
+                id: 'bmw-m440i',
+                title: '2020 BMW M440i',
+                category: 'Sports Car',
+                status: 'Live',
+                price: 32000,
+                bids: 28,
+                time: '5h 15m',
+                buyNow: 35999,
+                bidIncrement: 250,
+                remainingSeconds: 5 * 3600 + 15 * 60,
+                image: 'images/vehicles/bmw-m440i.svg',
+                images: ['images/vehicles/bmw-m440i.svg', 'images/vehicles/tesla-model-3.svg'],
+                description: 'A sleek 2020 BMW M440i with premium leather, sport tuning, and low mileage.',
+                details: {
+                    Year: '2020',
+                    Make: 'BMW',
+                    Model: 'M440i',
+                    Mileage: '28,900 miles',
+                    Transmission: 'Automatic',
+                    'Fuel Type': 'Gasoline',
+                },
+                sellerName: 'Urban Motors',
+                sellerRating: 4.8,
+                sellerReviews: 180,
+                sellerLocation: 'Chicago, IL',
+                sellerBadge: 'TRUSTED DEALER',
+            },
+            {
+                id: 'honda-civic',
+                title: '2021 Honda Civic',
+                category: 'Sport Sedan',
+                status: 'Ending Soon',
+                price: 18000,
+                bids: 22,
+                time: '6h 40m',
+                buyNow: 19999,
+                bidIncrement: 150,
+                remainingSeconds: 6 * 3600 + 40 * 60,
+                image: 'images/vehicles/honda-civic.svg',
+                images: ['images/vehicles/honda-civic.svg', 'images/vehicles/ford-f150.svg'],
+                description: 'A dependable 2021 Honda Civic with recent service, extended coverage, and clean title.',
+                details: {
+                    Year: '2021',
+                    Make: 'Honda',
+                    Model: 'Civic',
+                    Mileage: '32,100 miles',
+                    Transmission: 'Automatic',
+                    'Fuel Type': 'Gasoline',
+                },
+                sellerName: 'City Auto',
+                sellerRating: 4.7,
+                sellerReviews: 98,
+                sellerLocation: 'Austin, TX',
+                sellerBadge: 'TOP SELLER',
+            },
+            {
+                id: 'ford-f150',
+                title: '2018 Ford F-150',
+                category: 'Full-size Truck',
+                status: 'Live',
+                price: 22000,
+                bids: 35,
+                time: '7h 30m',
+                buyNow: 24999,
+                bidIncrement: 250,
+                remainingSeconds: 7 * 3600 + 30 * 60,
+                image: 'images/vehicles/ford-f150.svg',
+                images: ['images/vehicles/ford-f150.svg', 'images/vehicles/honda-civic.svg'],
+                description: 'Strong and reliable 2018 Ford F-150 with service records, towing package, and modern features.',
+                details: {
+                    Year: '2018',
+                    Make: 'Ford',
+                    Model: 'F-150',
+                    Mileage: '65,000 miles',
+                    Transmission: 'Automatic',
+                    'Fuel Type': 'Gasoline',
+                },
+                sellerName: 'Performance Trucks',
+                sellerRating: 4.6,
+                sellerReviews: 120,
+                sellerLocation: 'Dallas, TX',
+                sellerBadge: 'PREMIUM PARTNER',
+            },
+        ];
+
+        let currentAuction = null;
+        let timerInterval = null;
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        // Timer countdown
-        function updateTimer() {
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            showToast('Login would connect to the secure backend.');
+            closeModal('loginModal');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            showToast('Account created in the demo environment.');
+            closeModal('registerModal');
+        }
+
+        function showToast(message) {
+            let container = document.getElementById('toastContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toastContainer';
+                container.style.position = 'fixed';
+                container.style.bottom = '20px';
+                container.style.right = '20px';
+                container.style.display = 'grid';
+                container.style.gap = '12px';
+                container.style.zIndex = '1200';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.background = '#0f172a';
+            toast.style.color = 'white';
+            toast.style.padding = '14px 18px';
+            toast.style.borderRadius = '12px';
+            toast.style.boxShadow = '0 16px 30px rgba(0, 0, 0, 0.16)';
+            toast.style.maxWidth = '320px';
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3600);
+        }
+
+        function formatCurrency(value) {
+            return `$${value.toLocaleString()}`;
+        }
+
+        function switchTab(tabName, button) {
+            document.querySelectorAll('.tab-content').forEach((tab) => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach((btn) => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            if (button) button.classList.add('active');
+        }
+
+        function initAuctionDetail() {
+            const query = new URLSearchParams(window.location.search);
+            const auctionId = query.get('id') || 'tesla-model-3';
+            currentAuction = AUCTIONS.find((item) => item.id === auctionId) || AUCTIONS[0];
+            renderAuction(currentAuction);
+            renderSimilarAuctions();
+        }
+
+        function renderAuction(auction) {
+            document.getElementById('auctionTitle').textContent = auction.title;
+            document.getElementById('auctionCategory').textContent = auction.category;
+            document.getElementById('auctionStatusBadge').textContent = auction.status === 'Live' ? `🔴 LIVE - Ending in ${auction.time}` : auction.status;
+            document.getElementById('currentPrice').textContent = formatCurrency(auction.price);
+            document.getElementById('totalBidsValue').textContent = auction.bids;
+            document.getElementById('watchersValue').textContent = auction.watchers || 128;
+            document.getElementById('buyNowValue').textContent = formatCurrency(auction.buyNow);
+            document.getElementById('bidInput').value = auction.price + auction.bidIncrement;
+            document.getElementById('productDescription').textContent = auction.description;
+            document.getElementById('sellerName').textContent = auction.sellerName;
+            document.getElementById('sellerTabName').textContent = auction.sellerName;
+            document.getElementById('sellerRating').textContent = `${auction.sellerRating}/5 (${auction.sellerReviews} reviews)`;
+            document.getElementById('sellerTabRating').textContent = `⭐⭐⭐⭐⭐ ${auction.sellerRating}/5 (${auction.sellerReviews} reviews)`;
+            document.getElementById('sellerLocation').textContent = auction.sellerLocation;
+            document.getElementById('sellerBadge').textContent = auction.sellerBadge;
+            document.getElementById('sellerTabBadge').textContent = auction.sellerBadge;
+            document.getElementById('sellerTabDescription').textContent = auction.sellerDescription || 'Trusted seller with years of experience in vehicle sales. All items inspected and certified.';
+            renderDetailsGrid(auction.details);
+            renderThumbnails(auction.images);
+            startTimer(auction.remainingSeconds);
+        }
+
+        function renderDetailsGrid(details) {
+            const grid = document.getElementById('productDetailsGrid');
+            grid.innerHTML = Object.entries(details).map(([key, value]) => `
+                <div>
+                    <span style="color: var(--text-light); font-size: 14px;">${key}</span>
+                    <p style="font-weight: 600; margin: 4px 0 0;">${value}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderThumbnails(images) {
+            const list = document.getElementById('thumbnailList');
+            list.innerHTML = images.map((src) => `
+                <div class="thumbnail" onclick="changeMainImage('${src}')">
+                    <img src="${src}" alt="Thumbnail">
+                </div>
+            `).join('');
+        }
+
+        function changeMainImage(src) {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = src;
+        }
+
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
             const timerElement = document.getElementById('timer');
-            let hours = 2, minutes = 30, seconds = 45;
-
-            setInterval(() => {
-                seconds--;
-                if (seconds < 0) {
-                    seconds = 59;
-                    minutes--;
+            let remaining = seconds;
+            timerElement.textContent = formatCountdown(remaining);
+            timerInterval = setInterval(() => {
+                remaining -= 1;
+                if (remaining <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = 'Auction Closed';
+                    return;
                 }
-                if (minutes < 0) {
-                    minutes = 59;
-                    hours--;
-                }
-                if (hours < 0) {
-                    hours = 0;
-                    minutes = 0;
-                    seconds = 0;
-                }
-
-                timerElement.textContent = `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                timerElement.textContent = formatCountdown(remaining);
             }, 1000);
         }
 
-        updateTimer();
+        function formatCountdown(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${hours}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function handleDetailBid() {
+            const amount = Number(document.getElementById('bidInput').value);
+            if (!amount || amount <= currentAuction.price) {
+                showToast('Please enter a bid higher than the current price.');
+                return;
+            }
+            currentAuction.price = amount;
+            currentAuction.bids += 1;
+            document.getElementById('currentPrice').textContent = formatCurrency(currentAuction.price);
+            document.getElementById('totalBidsValue').textContent = currentAuction.bids;
+            document.getElementById('nextBidValue').textContent = formatCurrency(currentAuction.price + currentAuction.bidIncrement);
+            showToast(`Your bid of ${formatCurrency(amount)} is now the top offer.`);
+        }
+
+        function handleBuyNow() {
+            showToast(`Buy It Now selected for ${formatCurrency(currentAuction.buyNow)}.`);
+        }
+
+        function handleMakeOffer() {
+            const offer = prompt('Enter your offer amount:');
+            if (!offer || Number(offer) <= 0) {
+                showToast('Offer cancelled or invalid.', 'error');
+                return;
+            }
+            showToast(`Offer submitted for ${formatCurrency(Number(offer))}. The seller will review it.`);
+        }
+
+        function handleMessageSeller() {
+            showToast('A message request has been sent to the seller.');
+        }
+
+        function renderSimilarAuctions() {
+            const similar = AUCTIONS.filter((item) => item.id !== currentAuction.id).slice(0, 3);
+            const grid = document.getElementById('similarGrid');
+            grid.innerHTML = similar.map((auction) => `
+                <div class="similar-card" onclick="window.location.href='auction-detail.html?id=${encodeURIComponent(auction.id)}'">
+                    <div class="similar-image"><img src="${auction.image}" alt="${auction.title}"></div>
+                    <div class="similar-content">
+                        <h4>${auction.title}</h4>
+                        <p>${auction.category}</p>
+                        <div class="similar-footer">
+                            <span style="font-weight: 600;">${formatCurrency(auction.price)}</span>
+                            <span>${auction.bids} bids</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.addEventListener('DOMContentLoaded', initAuctionDetail);
     </script>
 </body>
 </html>

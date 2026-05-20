@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220">
+  <rect width="220" height="220" fill="#f8fafc"/>
+  <rect x="70" y="40" width="80" height="140" rx="24" fill="#0f172a"/>
+  <circle cx="110" cy="110" r="28" fill="#cbd5e1"/>
+  <rect x="95" y="60" width="30" height="10" rx="5" fill="#94a3b8"/>
+  <rect x="95" y="150" width="30" height="10" rx="5" fill="#94a3b8"/>
+  <text x="110" y="205" text-anchor="middle" font-size="18" font-family="Arial" fill="#0f172a">PS5</text>
+</svg>
