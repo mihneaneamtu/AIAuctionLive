@@ -8,9 +8,9 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <div className="min-h-screen bg-white dark:bg-secondary-950">
+    <div className="min-h-screen bg-black">
       {/* Header/Navigation */}
-      <header className="sticky top-0 z-50 backdrop-blur-lg bg-white/80 dark:bg-secondary-950/80 border-b border-secondary-200 dark:border-secondary-800">
+      <header className="sticky top-0 z-50 backdrop-blur-lg bg-black/80 border-b border-white/10">
         <div className="section-container flex items-center justify-between h-20">
           <Link href="/" className="text-2xl font-bold text-gradient">
             AI Auction Live
@@ -90,7 +90,7 @@ export default function Home() {
       </section>
 
       {/* Categories Section */}
-      <section className="section-padding bg-secondary-50 dark:bg-secondary-900/50">
+      <section className="section-padding bg-slate-950/70">
         <div className="section-container">
           <h2 className="text-4xl font-bold mb-12 text-center">Browse Categories</h2>
           <div className="grid-responsive">
@@ -134,7 +134,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="section-padding bg-secondary-50 dark:bg-secondary-900/50">
+      <section className="section-padding bg-slate-950/70">
         <div className="section-container">
           <h2 className="text-4xl font-bold mb-12 text-center">Why Choose AI Auction Live?</h2>
           <div className="grid md:grid-cols-3 gap-8">

@@ -198,7 +198,7 @@ export default function RegisterPage() {
               <div className="w-full border-t border-secondary-300 dark:border-secondary-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white dark:bg-secondary-900 text-secondary-600">Or sign up with</span>
+              <span className="px-2 bg-slate-950 text-secondary-300">Or sign up with</span>
             </div>
           </div>
 

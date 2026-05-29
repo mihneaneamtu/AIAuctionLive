@@ -33,14 +33,14 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   return (
-    <div className="min-h-screen bg-secondary-50 dark:bg-secondary-950">
+    <div className="min-h-screen bg-black">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white dark:bg-secondary-900 border-b border-secondary-200 dark:border-secondary-800">
+      <header className="sticky top-0 z-50 bg-slate-950 border-b border-white/10">
         <div className="flex items-center justify-between h-20 px-6">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 hover:bg-secondary-100 dark:hover:bg-secondary-800 rounded-lg"
+                className="p-2 hover:bg-slate-900 rounded-lg"
             >
               {sidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
             </button>
@@ -49,7 +49,7 @@ export default function DashboardPage() {
             </Link>
           </div>
           <div className="flex items-center gap-6">
-            <button className="p-2 hover:bg-secondary-100 dark:hover:bg-secondary-800 rounded-lg relative">
+            <button className="p-2 hover:bg-slate-900 rounded-lg relative">
               <FiBell size={24} />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-600 rounded-full"></span>
             </button>
@@ -69,7 +69,7 @@ export default function DashboardPage() {
       <div className="flex">
         {/* Sidebar */}
         {sidebarOpen && (
-          <aside className="w-64 bg-white dark:bg-secondary-900 border-r border-secondary-200 dark:border-secondary-800 h-screen sticky top-20 overflow-y-auto">
+          <aside className="w-64 bg-slate-950 border-r border-white/10 h-screen sticky top-20 overflow-y-auto">
             <nav className="p-6 space-y-2">
               {sidebarItems.map((item) => {
                 const Icon = item.icon;
@@ -80,8 +80,8 @@ export default function DashboardPage() {
                     onClick={() => setActiveTab(item.id)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                       activeTab === item.id
-                        ? 'bg-primary-100 dark:bg-primary-900 text-primary-600 font-semibold'
-                        : 'text-secondary-600 hover:bg-secondary-100 dark:hover:bg-secondary-800'
+                        ? 'bg-primary-900 text-primary-200 font-semibold'
+                        : 'text-secondary-300 hover:bg-slate-900'
                     }`}
                   >
                     <Icon size={20} />
@@ -90,7 +90,7 @@ export default function DashboardPage() {
                 );
               })}
               <hr className="my-4 border-secondary-200 dark:border-secondary-800" />
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-secondary-600 hover:bg-secondary-100 dark:hover:bg-secondary-800 transition-all">
+              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-secondary-300 hover:bg-slate-900 transition-all">
                 <FiLogOut size={20} />
                 <span>Logout</span>
               </button>
@@ -151,8 +151,8 @@ function DashboardOverview() {
           </div>
           <div className="space-y-4">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 bg-secondary-50 dark:bg-secondary-800 rounded-lg">
-                <div className="w-12 h-12 rounded-lg bg-primary-100 dark:bg-primary-900 flex items-center justify-center text-2xl">
+              <div key={i} className="flex items-center gap-4 p-4 bg-slate-950 dark:bg-secondary-800 rounded-lg">
+                <div className="w-12 h-12 rounded-lg bg-primary-900 flex items-center justify-center text-2xl">
                   🚗
                 </div>
                 <div className="flex-1">
@@ -178,8 +178,8 @@ function DashboardOverview() {
           </div>
           <div className="space-y-4">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 bg-secondary-50 dark:bg-secondary-800 rounded-lg">
-                <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900 flex items-center justify-center text-2xl">
+              <div key={i} className="flex items-center gap-4 p-4 bg-slate-950 dark:bg-secondary-800 rounded-lg">
+                <div className="w-12 h-12 rounded-lg bg-emerald-900 flex items-center justify-center text-2xl">
                   ✓
                 </div>
                 <div className="flex-1">
@@ -221,9 +221,9 @@ function MyBidsPage() {
             </thead>
             <tbody>
               {Array.from({ length: 5 }).map((_, i) => (
-                <tr key={i} className="border-b border-secondary-200 dark:border-secondary-800 hover:bg-secondary-50 dark:hover:bg-secondary-800">
+                <tr key={i} className="border-b border-secondary-200 dark:border-secondary-800 hover:bg-slate-900 dark:hover:bg-secondary-800">
                   <td className="py-3 px-4">
-                    <div>
+                    <div">
                       <p className="font-semibold">Item {i + 1}</p>
                       <p className="text-sm text-secondary-500">Category</p>
                     </div>
@@ -295,7 +295,7 @@ function WatchlistPage() {
           <div key={i} className="card-hover">
             <div className="glass h-48 mb-4 flex items-center justify-center relative">
               <div className="text-6xl">⭐</div>
-              <button className="absolute top-3 right-3 p-2 bg-white dark:bg-secondary-900 rounded-lg hover:bg-red-100">
+              <button className="absolute top-3 right-3 p-2 bg-slate-900 dark:bg-secondary-900 rounded-lg hover:bg-red-900/30">
                 <FiHeart size={18} fill="red" stroke="red" />
               </button>
             </div>
@@ -318,7 +318,7 @@ function MessagesPage() {
           <h2 className="font-semibold mb-4">Conversations</h2>
           <div className="space-y-2">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="p-3 rounded-lg hover:bg-secondary-100 dark:hover:bg-secondary-800 cursor-pointer">
+              <div key={i} className="p-3 rounded-lg hover:bg-slate-900 cursor-pointer">
                 <p className="font-semibold text-sm">User {i + 1}</p>
                 <p className="text-xs text-secondary-500 truncate">Last message preview...</p>
               </div>
@@ -354,7 +354,7 @@ function PaymentsPage() {
             </thead>
             <tbody>
               {Array.from({ length: 10 }).map((_, i) => (
-                <tr key={i} className="border-b border-secondary-200 dark:border-secondary-800 hover:bg-secondary-50 dark:hover:bg-secondary-800">
+                <tr key={i} className="border-b border-secondary-200 dark:border-secondary-800 hover:bg-slate-900 dark:hover:bg-secondary-800">
                   <td className="py-3 px-4">Dec {15 - i}, 2024</td>
                   <td className="py-3 px-4">Auction Payment - Item {i}</td>
                   <td className="py-3 px-4 font-semibold">${(i * 500 + 500).toLocaleString()}</td>
@@ -432,9 +432,9 @@ function SettingsPage() {
           <button className="btn-outline">Change Password</button>
         </div>
 
-        <div className="card border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950">
+        <div className="card border-red-700 bg-red-900/10 dark:border-red-900 dark:bg-red-950">
           <h2 className="text-xl font-bold mb-4">Danger Zone</h2>
-          <button className="btn-outline text-red-600 border-red-600 hover:bg-red-100">
+          <button className="btn-outline text-red-600 border-red-600 hover:bg-red-900/30">
             Delete Account
           </button>
         </div>

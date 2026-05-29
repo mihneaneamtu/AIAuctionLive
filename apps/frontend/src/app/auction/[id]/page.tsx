@@ -10,9 +10,9 @@ export default function AuctionDetailPage({ params }: { params: { id: string } }
   const [activeTab, setActiveTab] = useState<'overview' | 'bids' | 'seller'>('overview');
 
   return (
-    <div className="min-h-screen bg-white dark:bg-secondary-950">
+    <div className="min-h-screen bg-black">
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-lg bg-white/80 dark:bg-secondary-950/80 border-b border-secondary-200 dark:border-secondary-800">
+      <header className="sticky top-0 z-50 backdrop-blur-lg bg-black/80 border-b border-white/10">
         <div className="section-container flex items-center justify-between h-20">
           <Link href="/" className="text-2xl font-bold text-gradient">
             AI Auction Live
@@ -49,14 +49,14 @@ export default function AuctionDetailPage({ params }: { params: { id: string } }
                     <button
                       onClick={() => setIsFavorited(!isFavorited)}
                       className={`p-3 rounded-lg transition-all ${
-                        isFavorited
-                          ? 'bg-red-100 dark:bg-red-900 text-red-600'
-                          : 'bg-secondary-100 dark:bg-secondary-800 text-secondary-600'
+                          isFavorited
+                            ? 'bg-red-900 text-red-400'
+                            : 'bg-slate-900 text-secondary-300'
                       }`}
                     >
                       <FiHeart size={20} fill={isFavorited ? 'currentColor' : 'none'} />
                     </button>
-                    <button className="p-3 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-600 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-all">
+                    <button className="p-3 rounded-lg bg-slate-900 text-secondary-300 hover:bg-slate-800/50 transition-all">
                       <FiShare2 size={20} />
                     </button>
                   </div>
@@ -271,7 +271,7 @@ export default function AuctionDetailPage({ params }: { params: { id: string } }
                 </div>
 
                 {/* Seller Info Card */}
-                <div className="card mt-6 bg-secondary-50 dark:bg-secondary-800/50">
+                <div className="card mt-6 bg-slate-950/70">
                   <div className="flex items-center gap-3 mb-3">
                     <FiUser size={18} className="text-primary-600" />
                     <span className="font-semibold">Seller Details</span>

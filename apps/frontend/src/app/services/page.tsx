@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-white text-secondary-900 dark:bg-secondary-950 dark:text-white">
+    <main className="min-h-screen bg-black text-secondary-50">
       <section className="section-container py-24">
         <div className="max-w-6xl mx-auto space-y-10">
           <div className="space-y-4">
@@ -25,7 +25,7 @@ export default function ServicesPage() {
             ))}
           </div>
 
-          <div className="card p-8 bg-secondary-50 dark:bg-secondary-900">
+          <div className="card p-8 bg-slate-950/80">
             <h2 className="text-3xl font-semibold mb-4">Browse service providers</h2>
             <p className="text-secondary-600 dark:text-secondary-400 mb-6">Our platform connects buyers and sellers with top-rated professionals for every auction clearance.</p>
             <Link href="/auctions" className="btn-primary">Explore Auctions</Link>

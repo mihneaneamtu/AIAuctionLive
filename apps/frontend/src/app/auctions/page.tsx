@@ -31,9 +31,9 @@ export default function AuctionsPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-white dark:bg-secondary-950">
+    <div className="min-h-screen bg-black">
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-lg bg-white/80 dark:bg-secondary-950/80 border-b border-secondary-200 dark:border-secondary-800">
+      <header className="sticky top-0 z-50 backdrop-blur-lg bg-black/80 border-b border-white/10">
         <div className="section-container flex items-center justify-between h-20">
           <Link href="/" className="text-2xl font-bold text-gradient">
             AI Auction Live
@@ -156,13 +156,13 @@ export default function AuctionsPage() {
                 <div className="flex gap-2 border border-secondary-300 dark:border-secondary-700 rounded-lg p-1">
                   <button
                     onClick={() => setViewType('grid')}
-                    className={`p-2 rounded ${viewType === 'grid' ? 'bg-primary-100 dark:bg-primary-900 text-primary-600' : ''}`}
+                    className={`p-2 rounded ${viewType === 'grid' ? 'bg-primary-900 text-primary-200' : ''}`}
                   >
                     <FiGrid size={20} />
                   </button>
                   <button
                     onClick={() => setViewType('list')}
-                    className={`p-2 rounded ${viewType === 'list' ? 'bg-primary-100 dark:bg-primary-900 text-primary-600' : ''}`}
+                    className={`p-2 rounded ${viewType === 'list' ? 'bg-primary-900 text-primary-200' : ''}`}
                   >
                     <FiList size={20} />
                   </button>

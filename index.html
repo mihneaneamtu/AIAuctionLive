@@ -6,21 +6,21 @@
     <title>AI Auction Live - Modern Online Auction Marketplace</title>
     <style>
         :root {
-            --primary: #0ea5e9;
-            --primary-dark: #0284c7;
-            --primary-light: #38bdf8;
-            --secondary: #0f172a;
-            --secondary-light: #f8fafc;
-            --accent: #ff6b1a;
-            --accent-dark: #f54e0d;
-            --success: #10b981;
-            --error: #ef4444;
-            --warning: #f59e0b;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --bg: #ffffff;
-            --bg-light: #f8fafc;
-            --border: #e2e8f0;
+            --primary: #e11dff;
+                --primary-dark: #b11ad1;
+                --primary-light: #ff7dfd;
+                --secondary: #071026;
+                --secondary-light: #0b1724;
+                --accent: #ff4ef5;
+                --accent-dark: #d43cd9;
+                --success: #22c55e;
+                --error: #fb7185;
+                --warning: #fbbf24;
+                --text: #e6eef8;
+                --text-light: #9aa7b8;
+                --bg: #000000;
+                --bg-light: #071026;
+                --border: #0f1724;
         }
 
         * {
@@ -31,7 +31,7 @@
 
         html, body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: radial-gradient(circle at top, #eff6ff 0%, #ffffff 45%, #f8fafc 100%);
+            background: var(--bg);
             color: var(--text);
             line-height: 1.6;
             scroll-behavior: smooth;
@@ -151,11 +151,11 @@
 
         /* Hero Section */
         .hero {
-            background: radial-gradient(circle at top left, #0ea5e9 0%, #7c3aed 42%, #f97316 100%);
-            color: white;
+            background: linear-gradient(135deg, rgba(225,29,255,0.12), rgba(255,78,245,0.06));
+            color: var(--text);
             padding: 100px 20px;
             text-align: center;
-            box-shadow: 0 30px 80px rgba(14, 165, 233, 0.16);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
         }
 
         .hero h1 {
@@ -184,9 +184,9 @@
 
         /* Search Bar */
         .search-bar {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 12px;
             padding: 30px;
             margin-top: 50px;
@@ -214,8 +214,8 @@
 
         /* Cards */
         .card {
-            background: var(--bg);
-            border: 1px solid var(--border);
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.04);
             border-radius: 12px;
             padding: 24px;
             transition: all 0.3s;
@@ -231,16 +231,16 @@
         .card-image {
             width: 100%;
             height: 200px;
-            background: linear-gradient(135deg, #0ea5e9 0%, #7c3aed 45%, #f97316 100%);
+            background: linear-gradient(135deg, rgba(225,29,255,0.08), rgba(255,78,245,0.04));
             border-radius: 8px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 16px;
-            color: white;
+            color: var(--text);
             font-size: 48px;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
         }
 
         .card-image img {
@@ -277,16 +277,18 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            background: rgba(255,255,255,0.03);
+            color: var(--text);
         }
 
         .badge-error {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--error);
+            background: rgba(227, 28, 143, 0.12);
+            color: #ffb3e8;
         }
 
         .badge-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
+            background: rgba(34,197,94,0.08);
+            color: #bbf7d0;
         }
 
         /* Section Title */
@@ -306,16 +308,16 @@
 
         /* Sections */
         .section-categories {
-            background: linear-gradient(180deg, rgba(14, 165, 233, 0.12), rgba(255, 255, 255, 0.97));
+            background: linear-gradient(180deg, rgba(225,29,255,0.06), rgba(255,78,245,0.02));
         }
 
         .section-features {
-            background: #ffffff;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
         }
 
         .section-stats {
-            background: linear-gradient(135deg, #0ea5e9, #7c3aed);
-            color: white;
+            background: linear-gradient(135deg, rgba(225,29,255,0.12), rgba(255,78,245,0.08));
+            color: var(--text);
         }
 
         .stats-grid {
@@ -368,7 +370,7 @@
 
         /* Footer */
         footer {
-            background: var(--secondary);
+            background: #05060a;
             color: white;
             padding: 60px 20px 20px;
             margin-top: 80px;

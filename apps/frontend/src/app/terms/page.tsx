@@ -1,6 +1,6 @@
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-white text-secondary-900 dark:bg-secondary-950 dark:text-white">
+    <main className="min-h-screen bg-black text-secondary-50">
       <section className="section-container py-24">
         <div className="max-w-5xl mx-auto space-y-8">
           <div>

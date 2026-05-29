@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function SellPage() {
   return (
-    <main className="min-h-screen bg-white text-secondary-900 dark:bg-secondary-950 dark:text-white">
+    <main className="min-h-screen bg-black text-secondary-50">
       <section className="section-container py-24">
         <div className="max-w-5xl mx-auto space-y-8">
           <div className="space-y-4">
@@ -21,7 +21,7 @@ export default function SellPage() {
                 <li>• Safe, verified buyer pool</li>
               </ul>
             </div>
-            <div className="card p-8 bg-secondary-50 dark:bg-secondary-900">
+            <div className="card p-8 bg-slate-950/80">
               <h2 className="text-2xl font-semibold mb-4">Start a new listing</h2>
               <form className="space-y-4">
                 <label className="block">

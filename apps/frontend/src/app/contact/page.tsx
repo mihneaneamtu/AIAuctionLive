@@ -1,6 +1,6 @@
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-white text-secondary-900 dark:bg-secondary-950 dark:text-white">
+    <main className="min-h-screen bg-black text-secondary-50">
       <section className="section-container py-24">
         <div className="max-w-4xl mx-auto space-y-8">
           <div>
@@ -9,7 +9,7 @@ export default function ContactPage() {
             <p className="text-lg text-secondary-600 dark:text-secondary-300">Need help with a listing, payment, or account? Send us a message and we’ll respond as soon as possible.</p>
           </div>
 
-          <div className="card p-8 bg-secondary-50 dark:bg-secondary-900">
+          <div className="card p-8 bg-slate-950/80">
             <form className="space-y-6">
               <label className="block">
                 <span className="text-sm font-medium">Your name</span>
